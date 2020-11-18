@@ -1,0 +1,39 @@
+{
+  "name": "confnode",
+  "version": "0.0.1",
+  "description": "Chat, Audio and Video's Inquires",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaparicio87/ConfNode.git"
+  },
+  "keywords": [
+    "API",
+    "CRUD",
+    "MYSQL",
+    "SOCKET",
+    "SEQUELIZE"
+  ],
+  "author": "Alejandro's",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aaparicio87/ConfNode/issues"
+  },
+  "homepage": "https://github.com/aaparicio87/ConfNode#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.3.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "sequelize-cli": "^6.2.0"
+  }
+}
