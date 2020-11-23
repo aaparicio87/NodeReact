@@ -18,8 +18,8 @@ import { login } from "../_redux/authCrud";
 */
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  email: "",
+  password: "",
 };
 
 function Login(props) {
@@ -92,12 +92,12 @@ function Login(props) {
   return (
     <div className="login-form login-signin" id="kt_login_signin_form">
       {/* begin::Head */}
-      <div className="text-center mb-10 mb-lg-20">
+      <div className="text-center mb-5 mb-lg-2">
         <h3 className="font-size-h1">
           <FormattedMessage id="AUTH.LOGIN.TITLE" />
         </h3>
         <p className="text-muted font-weight-bold">
-          Enter your username and password
+          Your credentials
         </p>
       </div>
       {/* end::Head */}
@@ -107,7 +107,7 @@ function Login(props) {
         onSubmit={formik.handleSubmit}
         className="form fv-plugins-bootstrap fv-plugins-framework"
       >
-        {formik.status ? (
+        {/* {formik.status ? (
           <div className="mb-10 alert alert-custom alert-light-danger alert-dismissible">
             <div className="alert-text font-weight-bold">{formik.status}</div>
           </div>
@@ -118,7 +118,7 @@ function Login(props) {
               <strong>demo</strong> to continue.
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="form-group fv-plugins-icon-container">
           <input
@@ -128,7 +128,7 @@ function Login(props) {
               "email"
             )}`}
             name="email"
-            {...formik.getFieldProps("email")}
+            /* {...formik.getFieldProps("email")} */
           />
           {formik.touched.email && formik.errors.email ? (
             <div className="fv-plugins-message-container">
@@ -144,7 +144,7 @@ function Login(props) {
               "password"
             )}`}
             name="password"
-            {...formik.getFieldProps("password")}
+            /* {...formik.getFieldProps("password")} */
           />
           {formik.touched.password && formik.errors.password ? (
             <div className="fv-plugins-message-container">
@@ -152,23 +152,45 @@ function Login(props) {
             </div>
           ) : null}
         </div>
-        <div className="form-group d-flex flex-wrap justify-content-between align-items-center">
+        
+        <div className="row align-items-center justify-content-between h-auto py-0 px-6">
+          <div>
+            <input type="checkbox" value="remember-me" className="align-text-bottom"></input>
+            <label className="ml-3">Keep me logged in</label></div>
+          <div>
           <Link
-            to="/auth/forgot-password"
-            className="text-dark-50 text-hover-primary my-3 mr-2"
-            id="kt_login_forgot"
-          >
-            <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />
+                  to="/auth/forgot-password"
+                  className="text-dark-50 text-hover-primary my-3 mr-2 text-right"
+                  id="kt_login_forgot"
+                >
+                <FormattedMessage id="AUTH.GENERAL.FORGOT_BUTTON" />
           </Link>
+          </div>
+        </div>   
+        <div className="d-flex flex-wrap justify-content-between align-items-center">
           <button
             id="kt_login_signin_submit"
             type="submit"
             disabled={formik.isSubmitting}
-            className={`btn btn-primary font-weight-bold px-9 py-4 my-3`}
+            className={`btn btn-block btn-primary font-weight-bold px-9 py-4 my-3`}
           >
             <span>Sign In</span>
             {loading && <span className="ml-3 spinner spinner-white"></span>}
           </button>
+        </div>
+        <div className="form-group d-flex flex-wrap justify-content-center">
+          <span className="font-weight-bold text-dark-50 my-2">Don't have an account?</span>
+          {/* <Link to="/auth/registration" className="font-weight-bold ml-2" id="kt_login_signup">Sign Up!</Link> */}
+          {/* <button
+            id="kt_login_signin_submit"
+            type="submit"
+            disabled={formik.isSubmitting}
+            className={`btn btn-block btn-primary font-weight-bold px-9 py-4 my-3`}
+            >
+            <span>Sign Up</span>
+            {loading && <span className="ml-3 spinner spinner-white"></span>}
+          </button> */}
+          <Link to="/auth/registration" className="btn btn-block btn-primary font-weight-bold px-9 py-4 my-3" id="kt_login_signup">Sign Up!</Link>
         </div>
       </form>
       {/*end::Form*/}

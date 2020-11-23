@@ -3,12 +3,12 @@ const app = express();
 const { sequelize } = require('./models/index');
 
 //Settings
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 
 //Middlewares
 app.use(express.json());
 
-// Rutas
+// Routes
 app.use(require('./routes'));
 
 
