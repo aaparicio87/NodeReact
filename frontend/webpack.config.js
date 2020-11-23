@@ -33,6 +33,11 @@ const mainConfig = function () {
 			filename: "[name].js"
 		},
 		resolve: {extensions: ['.scss']},
+		externals: {
+			'ConfigData': {
+				serverURL: 'http://localhost:8000/api'
+			}
+		},
 		plugins: [
 			// webpack log message
 			new WebpackMessages({
