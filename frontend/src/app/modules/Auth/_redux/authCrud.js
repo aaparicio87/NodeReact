@@ -1,9 +1,9 @@
 import axios from "axios";
-import ConfigData from "ConfigData";
+import url from "../../../../configData";
 
-export const LOGIN_URL = `${ConfigData.serverURL}/signin`;
-export const REGISTER_URL = `${ConfigData.serverURL}/signup`;
-/* export const REQUEST_PASSWORD_URL = "api/auth/forgot-password"; */
+export const LOGIN_URL = `${url}/signin`;
+export const REGISTER_URL = `${url}/signup`;
+export const REQUEST_PASSWORD_URL = "api/auth/forgot-password"; 
 
 export const ME_URL = "api/me";
 
@@ -11,13 +11,13 @@ export function login(email, password) {
   return axios.post(LOGIN_URL, { email, password });
 }
 
-export function register(email, fullname, username, password) {
-  return axios.post(REGISTER_URL, { email, fullname, username, password });
+  export function register(title, firstName,lastName,roomName,email, password) {
+  return axios.post(REGISTER_URL, { title, firstName,lastName,roomName,email, password });
 }
 
-/* export function requestPassword(email) {
+ export function requestPassword(email) {
   return axios.post(REQUEST_PASSWORD_URL, { email });
-} */
+}
 
 export function getUserByToken() {
   // Authorization head should be fulfilled in interceptor.

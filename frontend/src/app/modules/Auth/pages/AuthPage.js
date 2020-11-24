@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import {Link, Switch, Redirect} from "react-router-dom";
-import {toAbsoluteUrl} from "../../../../_metronic/_helpers";
+import {/* Link, */ Switch, Redirect} from "react-router-dom";
+/* import {toAbsoluteUrl} from "../../../../_metronic/_helpers"; */
 import {ContentRoute} from "../../../../_metronic/layout"
 import Login from "./Login";
 import Registration from "./Registration";

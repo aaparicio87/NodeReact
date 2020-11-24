@@ -11,7 +11,7 @@ module.exports = {
       title: {
         type: Sequelize.ENUM('Dr', 'MR.', 'Mrs.', 'Miss', 'Ms.', 'Other')
       },
-      fisrtName: {
+      firstName: {
         type: Sequelize.STRING,
         allowNull: false
       },

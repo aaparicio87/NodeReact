@@ -6,21 +6,31 @@ import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
+import Select from 'react-select';
+
+const options = [
+  { value: 'Dr', label: 'Dr' },
+  { value: 'MR.', label: 'MR.' },
+  { value: 'Mrs.', label: 'Mrs' },
+  { value: 'Miss.', label: 'Miss' },
+  { value: 'Ms.', label: 'Ms.' },
+  { value: 'Other', label: 'Other' },
+];
 
 const initialValues = {
-  fullname: "",
+  firstname: "",
+  lastName: "",
+  roomName: "",
   email: "",
-  username: "",
   password: "",
   changepassword: "",
-  acceptTerms: false,
 };
 
 function Registration(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const RegistrationSchema = Yup.object().shape({
-    fullname: Yup.string()
+    firstname: Yup.string()
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
       .required(
@@ -28,16 +38,19 @@ function Registration(props) {
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
         })
       ),
-    email: Yup.string()
+      lastName: Yup.string()
+      .min(3, "Minimum 3 symbols")
+      .max(50, "Maximum 50 symbols")
+      .required(
+        intl.formatMessage({
+          id: "AUTH.VALIDATION.REQUIRED_FIELD",
+        })
+      ),
+      roomName: Yup.string()
+      .min(3, "Minimum 3 symbols")
+      .max(50, "Maximum 50 symbols"),
+      email: Yup.string()
       .email("Wrong email format")
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols")
-      .required(
-        intl.formatMessage({
-          id: "AUTH.VALIDATION.REQUIRED_FIELD",
-        })
-      ),
-    username: Yup.string()
       .min(3, "Minimum 3 symbols")
       .max(50, "Maximum 50 symbols")
       .required(
@@ -66,9 +79,6 @@ function Registration(props) {
           "Password and Confirm Password didn't match"
         ),
       }),
-    acceptTerms: Yup.bool().required(
-      "You must accept the terms and conditions"
-    ),
   });
 
   const enableLoading = () => {
@@ -97,7 +107,7 @@ function Registration(props) {
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.email, values.fullname, values.username, values.password)
+      register(values.title, values.firstname, values.lastName, values.roomName, values.email, values.password)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
@@ -114,6 +124,8 @@ function Registration(props) {
         });
     },
   });
+
+  const [ selectedOption, setSelectedOption] = useState(null);
 
   return (
     <div className="login-form login-signin" style={{ display: "block" }}>
@@ -138,25 +150,72 @@ function Registration(props) {
           </div>
         )}
         {/* end: Alert */}
-
-        {/* begin: Fullname */}
+        <div className="form-group fv-plugins-icon-container">
+          <Select
+          value={selectedOption}
+          onChange={setSelectedOption}
+          options={options}
+          className={"form-control form-control-solid h-auto py-5 px-6"}
+          name="title"
+        />
+        </div>
+        {/* begin: FirstName */}
         <div className="form-group fv-plugins-icon-container">
           <input
-            placeholder="Full name"
+            placeholder="First name"
             type="text"
             className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
               "fullname"
             )}`}
-            name="fullname"
-            {...formik.getFieldProps("fullname")}
+            name="firstName"
+            {...formik.getFieldProps("firstName")}
           />
-          {formik.touched.fullname && formik.errors.fullname ? (
+          {formik.touched.firstName && formik.errors.firstName ? (
             <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.fullname}</div>
+              <div className="fv-help-block">{formik.errors.firstName}</div>
             </div>
           ) : null}
         </div>
-        {/* end: Fullname */}
+        {/* end: FirstName */}
+
+        {/* begin: LastName */}
+        <div className="form-group fv-plugins-icon-container">
+          <input
+            placeholder="Last name"
+            type="text"
+            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
+              "fullname"
+            )}`}
+            name="lastName"
+            {...formik.getFieldProps("lastName")}
+          />
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">{formik.errors.lastName}</div>
+            </div>
+          ) : null}
+        </div>
+        {/* end: LastName */}
+        
+        {/* begin: RoomName */}
+        <div className="form-group fv-plugins-icon-container">
+          <input
+            placeholder="Room name"
+            type="text"
+            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
+              "fullname"
+            )}`}
+            name="roomName"
+            {...formik.getFieldProps("roomName")}
+          />
+          {formik.touched.roomName && formik.errors.roomName ? (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">{formik.errors.roomName}</div>
+            </div>
+          ) : null}
+        </div>
+        {/* end: RoomName */}
+        
 
         {/* begin: Email */}
         <div className="form-group fv-plugins-icon-container">
@@ -176,25 +235,6 @@ function Registration(props) {
           ) : null}
         </div>
         {/* end: Email */}
-
-        {/* begin: Username */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="User name"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "username"
-            )}`}
-            name="username"
-            {...formik.getFieldProps("username")}
-          />
-          {formik.touched.username && formik.errors.username ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.username}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: Username */}
 
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">
@@ -237,7 +277,7 @@ function Registration(props) {
         {/* end: Confirm Password */}
 
         {/* begin: Terms and Conditions */}
-        <div className="form-group">
+        {/* <div className="form-group">
           <label className="checkbox">
             <input
               type="checkbox"
@@ -260,28 +300,28 @@ function Registration(props) {
               <div className="fv-help-block">{formik.errors.acceptTerms}</div>
             </div>
           ) : null}
-        </div>
+        </div> */}
         {/* end: Terms and Conditions */}
-        <div className="form-group d-flex flex-wrap flex-center">
+        <div className="form-group fv-plugins-icon-container"/* className="form-group d-flex flex-wrap flex-center" */>
           <button
             type="submit"
-            disabled={
+            /* disabled={
               formik.isSubmitting ||
-              !formik.isValid ||
-              !formik.values.acceptTerms
-            }
-            className="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4"
+              !formik.isValid 
+            } */
+            className="btn btn-block btn-primary font-weight-bold h-auto py-5 px-6"
           >
-            <span>Submit</span>
+            <span>Sing Up</span>
             {loading && <span className="ml-3 spinner spinner-white"></span>}
           </button>
-
-          <Link to="/auth/login">
+        </div>
+        <div className="form-group fv-plugins-icon-container">
+        <Link to="/auth/login">
             <button
               type="button"
-              className="btn btn-light-primary font-weight-bold px-9 py-4 my-3 mx-4"
+              className="btn btn-block btn-light-primary font-weight-bold h-auto py-5 px-6"
             >
-              Cancel
+              Home
             </button>
           </Link>
         </div>

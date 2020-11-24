@@ -32,12 +32,6 @@ const mainConfig = function () {
 			// output path based on the entries' filename
 			filename: "[name].js"
 		},
-		resolve: {extensions: ['.scss']},
-		externals: {
-			'ConfigData': {
-				serverURL: 'http://localhost:8000/api'
-			}
-		},
 		plugins: [
 			// webpack log message
 			new WebpackMessages({

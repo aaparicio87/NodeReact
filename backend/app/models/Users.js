@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Users.init({
     title: DataTypes.ENUM('Dr', 'MR.', 'Mrs.', 'Miss', 'Ms.', 'Other'),
-    fisrtName: {
+    firstName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {

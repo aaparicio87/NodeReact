@@ -55,7 +55,7 @@ module.exports = {
 
         // Create user
         Users.create({
-            fisrtName: req.body.fisrtName,
+            firstName: req.body.firstName,
             lastName: req.body.lastName,
             roomName: req.body.roomName,
             email: req.body.email,
@@ -77,7 +77,7 @@ module.exports = {
 
             res.json({
                 user: user,
-                token: token
+                accessToken: token
             });
 
         }).catch(err => {
