@@ -6,26 +6,16 @@ import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
-import Select from 'react-select';
-import DatePicker from 'react-datepicker';
-
-const options = [
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
-];
 
 const initialValues = {
   firstName: "",
   lastName: "",
   email: "",
-  phoneNumber:"",
-  dateBirth:"",
   password: "",
   changepassword: "",
-  gender:"",
 };
 
-function RegistrationUser(props) {
+function RegistrationAdmin(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const RegistrationSchema = Yup.object().shape({
@@ -45,9 +35,6 @@ function RegistrationUser(props) {
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
         })
       ),
-      phoneNumber: Yup.string()
-      .min(8, "Minimum 8 symbols")
-      .max(20, "Maximum 20 symbols"),
 
       email: Yup.string()
       .email("Wrong email format")
@@ -107,7 +94,7 @@ function RegistrationUser(props) {
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.firstName, values.lastName, values.phoneNumber, values.email, values.password, values.gender, values.dateBirth)
+      register(values.firstName, values.lastName, values.email, values.password)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
@@ -124,9 +111,6 @@ function RegistrationUser(props) {
         });
     },
   });
-
-  const [startDate, setStartDate] = useState(null);
-  const [ selectedOption, setSelectedOption] = useState(null);
 
   return (
     <div className="login-form login-signin" style={{ display: "block" }}>
@@ -209,54 +193,6 @@ function RegistrationUser(props) {
         </div>
         {/* end: Email */}
 
-        {/* begin: PhoneNumber */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Phone Number"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "phoneNumber"
-            )}`}
-            name="phoneNumber"
-            {...formik.getFieldProps("phoneNumber")}
-          />
-          {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.phoneNumber}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: PhoneNumber */}
-
-        {/*begin: Date of Birth  */}
-        <div className="form-group fv-plugins-icon-container">
-          <DatePicker
-          dateFormat="dd/MM/yyyy"
-          selected={startDate}
-          onChange={date => setStartDate(date)}
-          placeholderText="Date of birth"
-          disabledKeyboardNavigation
-          className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-            "dateBirth"
-          )}`}
-          name="dateBirth"
-          {...formik.getFieldProps("dateBirth")}
-           />
-        </div>
-        {/* end: Date of Birth */}
-
-        {/* begin: Gender */}
-        <div className="form-group fv-plugins-icon-container">
-          <Select
-          value={selectedOption}
-          onChange={setSelectedOption}
-          options={options}
-          className={"form-control form-control-solid h-auto py-5 px-6"}
-          name="gender"
-        />
-        </div>
-        {/* end: Gender */}
-
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">
           <input
@@ -324,4 +260,4 @@ function RegistrationUser(props) {
   );
 }
 
-export default injectIntl(connect(null, auth.actions)(RegistrationUser));
+export default injectIntl(connect(null, auth.actions)(RegistrationAdmin));

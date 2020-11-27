@@ -6,6 +6,8 @@ import {ContentRoute} from "../../../../_metronic/layout"
 import Login from "./Login";
 import Registration from "./Registration";
 import ForgotPassword from "./ForgotPassword";
+import RegistrationUser from "./RegistrationUser";
+import RegistrationAdmin from "./RegistrationAdmin";
 import "../../../../_metronic/_assets/sass/pages/login/classic/login-1.scss";
 
 export function AuthPage() {
@@ -81,6 +83,8 @@ export function AuthPage() {
                 <Switch>
                 <ContentRoute path="/auth/login" component={Login}/>
                 <ContentRoute path="/auth/registration" component={Registration}/>
+                <ContentRoute path="/auth/registration_user" component={RegistrationUser}/>
+                <ContentRoute path="/auth/registration_admin" component={RegistrationAdmin}/>
                 <ContentRoute
                     path="/auth/forgot-password"
                     component={ForgotPassword}

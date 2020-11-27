@@ -1,5 +1,5 @@
 import axios from "axios";
-import url from "../../../../configData";
+import url from '../../../../ConfigData'
 
 export const LOGIN_URL = `${url}/signin`;
 export const REGISTER_URL = `${url}/signup`;
