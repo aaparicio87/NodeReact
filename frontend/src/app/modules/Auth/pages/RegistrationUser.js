@@ -7,27 +7,25 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
 import { register } from "../_redux/authCrud";
 import Select from 'react-select';
+import DatePicker from 'react-date-picker';
 
 const options = [
-  { value: 'Dr', label: 'Dr' },
-  { value: 'MR.', label: 'MR.' },
-  { value: 'Mrs.', label: 'Mrs' },
-  { value: 'Miss.', label: 'Miss' },
-  { value: 'Ms.', label: 'Ms.' },
-  { value: 'Other', label: 'Other' },
+  { value: 'Male', label: 'Male' },
+  { value: 'Female', label: 'Female' },
 ];
 
 const initialValues = {
   firstName: "",
   lastName: "",
-  roomName: "",
   email: "",
+  phoneNumber="",
+  dateBirth="",
   password: "",
   changepassword: "",
-  title:"",
+  gender="",
 };
 
-function Registration(props) {
+function RegistrationUser(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
   const RegistrationSchema = Yup.object().shape({
@@ -47,9 +45,10 @@ function Registration(props) {
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
         })
       ),
-      roomName: Yup.string()
-      .min(3, "Minimum 3 symbols")
-      .max(50, "Maximum 50 symbols"),
+      phoneNumber: Yup.string()
+      .min(8, "Minimum 8 symbols")
+      .max(20, "Maximum 20 symbols"),
+
       email: Yup.string()
       .email("Wrong email format")
       .min(3, "Minimum 3 symbols")
@@ -108,7 +107,7 @@ function Registration(props) {
     onSubmit: (values, { setStatus, setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.title, values.firstName, values.lastName, values.roomName, values.email, values.password, values.title)
+      register(values.firstName, values.lastName, values.phoneNumber, values.email, values.password, values.gender, values.dateBirth)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
@@ -126,6 +125,7 @@ function Registration(props) {
     },
   });
 
+  const [valueDate, onChange] = useState(new Date());
   const [ selectedOption, setSelectedOption] = useState(null);
 
   return (
@@ -151,18 +151,7 @@ function Registration(props) {
           </div>
         )}
         {/* end: Alert */}
-        
-        {/* begin: Title */}
-        <div className="form-group fv-plugins-icon-container">
-          <Select
-          value={selectedOption}
-          onChange={setSelectedOption}
-          options={options}
-          className={"form-control form-control-solid h-auto py-5 px-6"}
-          name="title"
-        />
-        {/* end: Title */}
-        </div>
+
         {/* begin: FirstName */}
         <div className="form-group fv-plugins-icon-container">
           <input
@@ -199,27 +188,7 @@ function Registration(props) {
             </div>
           ) : null}
         </div>
-        {/* end: LastName */}
-        
-        {/* begin: RoomName */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Room name"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "roomName"
-            )}`}
-            name="roomName"
-            {...formik.getFieldProps("roomName")}
-          />
-          {formik.touched.roomName && formik.errors.roomName ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.roomName}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: RoomName */}
-        
+        {/* end: LastName */}        
 
         {/* begin: Email */}
         <div className="form-group fv-plugins-icon-container">
@@ -239,6 +208,49 @@ function Registration(props) {
           ) : null}
         </div>
         {/* end: Email */}
+
+        {/* begin: PhoneNumber */}
+        <div className="form-group fv-plugins-icon-container">
+          <input
+            placeholder="Phone Number"
+            type="text"
+            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
+              "phoneNumber"
+            )}`}
+            name="phoneNumber"
+            {...formik.getFieldProps("phoneNumber")}
+          />
+          {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">{formik.errors.phoneNumber}</div>
+            </div>
+          ) : null}
+        </div>
+        {/* end: PhoneNumber */}
+
+        {/*begin: Date of Birth  */}
+        <div className="form-group fv-plugins-icon-container">
+          <DatePicker
+          onChange={onChange}
+          value={valueDate}
+          className={"form-control form-control-solid h-auto py-5 px-6"}
+          name="dateBirth"
+          placeholderText="Date Birth"
+           />
+        </div>
+        {/* end: Date of Birth */}
+
+        {/* begin: Gender */}
+        <div className="form-group fv-plugins-icon-container">
+          <Select
+          value={selectedOption}
+          onChange={setSelectedOption}
+          options={options}
+          className={"form-control form-control-solid h-auto py-5 px-6"}
+          name="gender"
+        />
+        </div>
+        {/* end: Gender */}
 
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">
@@ -279,33 +291,6 @@ function Registration(props) {
           ) : null}
         </div>
         {/* end: Confirm Password */}
-
-        {/* begin: Terms and Conditions */}
-        {/* <div className="form-group">
-          <label className="checkbox">
-            <input
-              type="checkbox"
-              name="acceptTerms"
-              className="m-1"
-              {...formik.getFieldProps("acceptTerms")}
-            />
-            <Link
-              to="/terms"
-              target="_blank"
-              className="mr-1"
-              rel="noopener noreferrer"
-            >
-              I agree the Terms & Conditions
-            </Link>
-            <span />
-          </label>
-          {formik.touched.acceptTerms && formik.errors.acceptTerms ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.acceptTerms}</div>
-            </div>
-          ) : null}
-        </div> */}
-        {/* end: Terms and Conditions */}
         <div className="form-group fv-plugins-icon-container"/* className="form-group d-flex flex-wrap flex-center" */>
           <button
             type="submit"
@@ -334,4 +319,4 @@ function Registration(props) {
   );
 }
 
-export default injectIntl(connect(null, auth.actions)(Registration));
+export default injectIntl(connect(null, auth.actions)(RegistrationUser));
