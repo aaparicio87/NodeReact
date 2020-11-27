@@ -17,12 +17,16 @@ const options = [
 const initialValues = {
   firstName: "",
   lastName: "",
+  roomName:"",
   email: "",
-  phoneNumber:"",
-  dateBirth:"",
   password: "",
   changepassword: "",
-  gender:"",
+  phoneNumber: "",
+  title: "",
+  dateBirth:"",
+  gender: "",
+  customer: false,
+  admin: false,
 };
 
 function RegistrationUser(props) {
@@ -104,10 +108,10 @@ function RegistrationUser(props) {
   const formik = useFormik({
     initialValues,
     validationSchema: RegistrationSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.firstName, values.lastName, values.phoneNumber, values.email, values.password, values.gender, values.dateBirth)
+      register(values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
@@ -115,11 +119,6 @@ function RegistrationUser(props) {
         })
         .catch(() => {
           setSubmitting(false);
-          setStatus(
-            intl.formatMessage({
-              id: "AUTH.VALIDATION.INVALID_LOGIN",
-            })
-          );
           disableLoading();
         });
     },
@@ -299,10 +298,10 @@ function RegistrationUser(props) {
         <div className="form-group fv-plugins-icon-container"/* className="form-group d-flex flex-wrap flex-center" */>
           <button
             type="submit"
-            /* disabled={
+            disabled={
               formik.isSubmitting ||
               !formik.isValid 
-            } */
+            }
             className="btn btn-block btn-primary font-weight-bold h-auto py-5 px-6"
           >
             <span>Sing Up</span>

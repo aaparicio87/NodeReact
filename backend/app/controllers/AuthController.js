@@ -49,7 +49,6 @@ module.exports = {
 
     // Registro
     signUp(req, res) {
-
         // Encrypt Pass
         let password = bcrypt.hashSync(req.body.password, Number.parseInt(authConfig.rounds));
 
@@ -62,7 +61,6 @@ module.exports = {
             password: password,
             title: req.body.title,
             phoneNumber: req.body.phoneNumber,
-            title: req.body.title,
             dateBirth: req.body.dateBirth,
             gender: req.body.gender,
             customer: req.body.customer,

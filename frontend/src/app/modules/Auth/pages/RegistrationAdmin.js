@@ -10,9 +10,16 @@ import { register } from "../_redux/authCrud";
 const initialValues = {
   firstName: "",
   lastName: "",
+  roomName:"",
   email: "",
   password: "",
   changepassword: "",
+  phoneNumber: "",
+  title: "",
+  dateBirth:"",
+  gender: "",
+  customer: false,
+  admin: true,
 };
 
 function RegistrationAdmin(props) {
@@ -91,10 +98,10 @@ function RegistrationAdmin(props) {
   const formik = useFormik({
     initialValues,
     validationSchema: RegistrationSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.firstName, values.lastName, values.email, values.password)
+      register(values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
@@ -102,11 +109,6 @@ function RegistrationAdmin(props) {
         })
         .catch(() => {
           setSubmitting(false);
-          setStatus(
-            intl.formatMessage({
-              id: "AUTH.VALIDATION.INVALID_LOGIN",
-            })
-          );
           disableLoading();
         });
     },
@@ -235,10 +237,10 @@ function RegistrationAdmin(props) {
         <div className="form-group fv-plugins-icon-container"/* className="form-group d-flex flex-wrap flex-center" */>
           <button
             type="submit"
-            /* disabled={
+             disabled={
               formik.isSubmitting ||
               !formik.isValid 
-            } */
+            } 
             className="btn btn-block btn-primary font-weight-bold h-auto py-5 px-6"
           >
             <span>Sing Up</span>

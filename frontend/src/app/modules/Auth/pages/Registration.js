@@ -20,16 +20,22 @@ const options = [
 const initialValues = {
   firstName: "",
   lastName: "",
-  roomName: "",
+  roomName:"",
   email: "",
   password: "",
   changepassword: "",
-  title:"",
+  phoneNumber: "",
+  title: "",
+  dateBirth:"",
+  gender: "",
+  customer: true,
+  admin: false,
 };
 
 function Registration(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
+
   const RegistrationSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(3, "Minimum 3 symbols")
@@ -105,10 +111,10 @@ function Registration(props) {
   const formik = useFormik({
     initialValues,
     validationSchema: RegistrationSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.title, values.firstName, values.lastName, values.roomName, values.email, values.password, values.title)
+      register(values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
@@ -116,11 +122,6 @@ function Registration(props) {
         })
         .catch(() => {
           setSubmitting(false);
-          setStatus(
-            intl.formatMessage({
-              id: "AUTH.VALIDATION.INVALID_LOGIN",
-            })
-          );
           disableLoading();
         });
     },
@@ -280,39 +281,13 @@ function Registration(props) {
         </div>
         {/* end: Confirm Password */}
 
-        {/* begin: Terms and Conditions */}
-        {/* <div className="form-group">
-          <label className="checkbox">
-            <input
-              type="checkbox"
-              name="acceptTerms"
-              className="m-1"
-              {...formik.getFieldProps("acceptTerms")}
-            />
-            <Link
-              to="/terms"
-              target="_blank"
-              className="mr-1"
-              rel="noopener noreferrer"
-            >
-              I agree the Terms & Conditions
-            </Link>
-            <span />
-          </label>
-          {formik.touched.acceptTerms && formik.errors.acceptTerms ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.acceptTerms}</div>
-            </div>
-          ) : null}
-        </div> */}
-        {/* end: Terms and Conditions */}
         <div className="form-group fv-plugins-icon-container"/* className="form-group d-flex flex-wrap flex-center" */>
           <button
             type="submit"
-            /* disabled={
+            disabled={
               formik.isSubmitting ||
               !formik.isValid 
-            } */
+            }
             className="btn btn-block btn-primary font-weight-bold h-auto py-5 px-6"
           >
             <span>Sing Up</span>
