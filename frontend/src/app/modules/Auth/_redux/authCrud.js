@@ -11,11 +11,32 @@ export function login(email, password) {
   return axios.post(LOGIN_URL, { email, password });
 }
 
-  export function register(firstName, lastName, roomName, email, password, title, phoneNumber, dateBirth, gender, customer, admin) {
-  return axios.post(REGISTER_URL, { firstName, lastName, roomName, email, password, title, phoneNumber, dateBirth, gender, customer, admin });
+  export function register(firstName, lastName, roomName, email, password, title, phoneNumber, 
+                           dateBirth, gender, customer, admin) {
+    const user={
+      firtsName: firstName,
+      lastname: lastName,
+      roomName: roomName,
+      email: email,
+      password: password,
+      title: title,
+      phoneNumber: phoneNumber,
+      dateBirth: dateBirth,
+      gender: gender,
+      customer: customer,
+      admin: admin
+    }
+    
+  return axios.post(REGISTER_URL, user)
+          .then(res => {
+            console.log('response', res.data);
+          })
+          .catch(err=>{
+            console.log('error', err);
+          });
 }
 
- export function requestPassword(email) {
+  export function requestPassword(email) {
   return axios.post(REQUEST_PASSWORD_URL, { email });
 }
 
