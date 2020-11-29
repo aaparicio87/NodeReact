@@ -114,7 +114,7 @@ function Registration(props) {
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
+      register(selectedOption.value,values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
