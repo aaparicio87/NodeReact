@@ -11,21 +11,15 @@ export function login(email, password) {
   return axios.post(LOGIN_URL, { email, password });
 }
 
-  export function register(status, firstName, lastName, roomName, email, password, title, phoneNumber,
-                           dateBirth, gender, customer, admin) {
+  export function register(title, firstName, lastName, roomName, email, password, customer) {
     const user={
-      status: status,
-      firtsName: firstName,
-      lastname: lastName,
+      title: title,
+      firstName: firstName,
+      lastName: lastName,
       roomName: roomName,
       email: email,
       password: password,
-      title: title,
-      phoneNumber: phoneNumber,
-      dateBirth: dateBirth,
-      gender: gender,
-      customer: customer,
-      admin: admin
+      customer: customer
     }
   console.log(user);
   return axios.post(REGISTER_URL, user)

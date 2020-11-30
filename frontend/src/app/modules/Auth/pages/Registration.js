@@ -24,12 +24,7 @@ const initialValues = {
   email: "",
   password: "",
   changepassword: "",
-  phoneNumber: "",
-  title: "",
-  dateBirth:"",
-  gender: "",
-  customer: true,
-  admin: false,
+  customer: true
 };
 
 function Registration(props) {
@@ -114,7 +109,7 @@ function Registration(props) {
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(selectedOption.value,values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
+      register(selectedOption.value, values.firstName, values.lastName, values.roomName, values.email, values.password, values.customer)
         .then(({ data: { accessToken } }) => {
           props.register(accessToken);
           disableLoading();
