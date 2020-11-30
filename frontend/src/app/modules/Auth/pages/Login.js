@@ -69,7 +69,7 @@ function Login(props) {
     initialValues,
     validationSchema: LoginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      enableLoading();
+    enableLoading();
       setTimeout(() => {
         login(values.email, values.password)
           .then(({ data: { accessToken } }) => {
@@ -107,18 +107,6 @@ function Login(props) {
         onSubmit={formik.handleSubmit}
         className="form fv-plugins-bootstrap fv-plugins-framework"
       >
-        {/* {formik.status ? (
-          <div className="mb-10 alert alert-custom alert-light-danger alert-dismissible">
-            <div className="alert-text font-weight-bold">{formik.status}</div>
-          </div>
-        ) : (
-          <div className="mb-10 alert alert-custom alert-light-info alert-dismissible">
-            <div className="alert-text ">
-              Use account <strong>admin@demo.com</strong> and password{" "}
-              <strong>demo</strong> to continue.
-            </div>
-          </div>
-        )} */}
 
         <div className="form-group fv-plugins-icon-container">
           <input
@@ -128,7 +116,7 @@ function Login(props) {
               "email"
             )}`}
             name="email"
-            /* {...formik.getFieldProps("email")} */
+            {...formik.getFieldProps("email")} 
           />
           {formik.touched.email && formik.errors.email ? (
             <div className="fv-plugins-message-container">
@@ -144,7 +132,7 @@ function Login(props) {
               "password"
             )}`}
             name="password"
-            /* {...formik.getFieldProps("password")} */
+            {...formik.getFieldProps("password")}
           />
           {formik.touched.password && formik.errors.password ? (
             <div className="fv-plugins-message-container">
@@ -180,17 +168,7 @@ function Login(props) {
         </div>
         <div className="form-group d-flex flex-wrap justify-content-center">
           <span className="font-weight-bold text-dark-50 my-2">Don't have an account?</span>
-          {/* <Link to="/auth/registration" className="font-weight-bold ml-2" id="kt_login_signup">Sign Up!</Link> */}
-          {/* <button
-            id="kt_login_signin_submit"
-            type="submit"
-            disabled={formik.isSubmitting}
-            className={`btn btn-block btn-primary font-weight-bold px-9 py-4 my-3`}
-            >
-            <span>Sign Up</span>
-            {loading && <span className="ml-3 spinner spinner-white"></span>}
-          </button> */}
-          <Link to="/auth/registration" className="btn btn-block btn-primary font-weight-bold px-9 py-4 my-3" id="kt_login_signup">Sign Up!</Link>
+          <Link to="/auth/registration_provider" className="btn btn-block btn-primary font-weight-bold px-9 py-4 my-3" id="kt_login_signup">Sign Up!</Link>
         </div>
       </form>
       {/*end::Form*/}

@@ -5,21 +5,16 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
-import { register } from "../_redux/authCrud";
+import { register_admin } from "../_redux/authCrud";
 
 const initialValues = {
   firstName: "",
   lastName: "",
-  roomName:"",
   email: "",
   password: "",
   changepassword: "",
-  phoneNumber: "",
-  title: "",
-  dateBirth:"",
-  gender: "",
-  customer: false,
   admin: true,
+  customer: false,
 };
 
 function RegistrationAdmin(props) {
@@ -101,9 +96,10 @@ function RegistrationAdmin(props) {
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
+      register_admin(values.firstName, values.lastName, values.email, 
+        values.password, values.customer, values.admin)
         .then(({ data: { accessToken } }) => {
-          props.register(accessToken);
+          props.register_admin(accessToken);
           disableLoading();
           setSubmitting(false);
         })

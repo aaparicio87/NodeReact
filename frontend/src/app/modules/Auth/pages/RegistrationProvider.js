@@ -5,13 +5,16 @@ import * as Yup from "yup";
 import { Link } from "react-router-dom";
 import { FormattedMessage, injectIntl } from "react-intl";
 import * as auth from "../_redux/authRedux";
-import { register } from "../_redux/authCrud";
+import { register_provider } from "../_redux/authCrud";
 import Select from 'react-select';
-import DatePicker from 'react-datepicker';
 
 const options = [
-  { value: 'Male', label: 'Male' },
-  { value: 'Female', label: 'Female' },
+  { value: 'Dr', label: 'Dr' },
+  { value: 'MR.', label: 'MR.' },
+  { value: 'Mrs.', label: 'Mrs' },
+  { value: 'Miss.', label: 'Miss' },
+  { value: 'Ms.', label: 'Ms.' },
+  { value: 'Other', label: 'Other' },
 ];
 
 const initialValues = {
@@ -21,17 +24,15 @@ const initialValues = {
   email: "",
   password: "",
   changepassword: "",
-  phoneNumber: "",
-  title: "",
-  dateBirth:"",
-  gender: "",
   customer: false,
-  admin: false,
+  admin: false
+
 };
 
-function RegistrationUser(props) {
+function RegistrationProvider(props) {
   const { intl } = props;
   const [loading, setLoading] = useState(false);
+
   const RegistrationSchema = Yup.object().shape({
     firstName: Yup.string()
       .min(3, "Minimum 3 symbols")
@@ -49,10 +50,9 @@ function RegistrationUser(props) {
           id: "AUTH.VALIDATION.REQUIRED_FIELD",
         })
       ),
-      phoneNumber: Yup.string()
-      .min(8, "Minimum 8 symbols")
-      .max(20, "Maximum 20 symbols"),
-
+      roomName: Yup.string()
+      .min(3, "Minimum 3 symbols")
+      .max(50, "Maximum 50 symbols"),
       email: Yup.string()
       .email("Wrong email format")
       .min(3, "Minimum 3 symbols")
@@ -111,9 +111,10 @@ function RegistrationUser(props) {
     onSubmit: (values, { setSubmitting }) => {
       setSubmitting(true);
       enableLoading();
-      register(values.firstName, values.lastName, values.roomName, values.email, values.password, values.title, values.phoneNumber, values.dateBirth, values.gender, values.customer, values.admin)
+      register_provider(selectedOption.value, values.firstName, values.lastName, 
+        values.roomName, values.email, values.password, values.customer, values.admin)
         .then(({ data: { accessToken } }) => {
-          props.register(accessToken);
+          props.register_provider(accessToken);
           disableLoading();
           setSubmitting(false);
         })
@@ -124,7 +125,6 @@ function RegistrationUser(props) {
     },
   });
 
-  const [startDate, setStartDate] = useState(null);
   const [ selectedOption, setSelectedOption] = useState(null);
 
   return (
@@ -150,7 +150,19 @@ function RegistrationUser(props) {
           </div>
         )}
         {/* end: Alert */}
-
+        
+        {/* begin: Title */}
+        <div className="form-group fv-plugins-icon-container">
+          <Select
+          value={selectedOption}
+          onChange={setSelectedOption}
+          options={options}
+          className={"form-control form-control-solid h-auto py-5 px-6"}
+          name="title"
+          placeholder="Title"
+        />
+        {/* end: Title */}
+        </div>
         {/* begin: FirstName */}
         <div className="form-group fv-plugins-icon-container">
           <input
@@ -187,7 +199,27 @@ function RegistrationUser(props) {
             </div>
           ) : null}
         </div>
-        {/* end: LastName */}        
+        {/* end: LastName */}
+        
+        {/* begin: RoomName */}
+        <div className="form-group fv-plugins-icon-container">
+          <input
+            placeholder="Room name"
+            type="text"
+            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
+              "roomName"
+            )}`}
+            name="roomName"
+            {...formik.getFieldProps("roomName")}
+          />
+          {formik.touched.roomName && formik.errors.roomName ? (
+            <div className="fv-plugins-message-container">
+              <div className="fv-help-block">{formik.errors.roomName}</div>
+            </div>
+          ) : null}
+        </div>
+        {/* end: RoomName */}
+        
 
         {/* begin: Email */}
         <div className="form-group fv-plugins-icon-container">
@@ -207,54 +239,6 @@ function RegistrationUser(props) {
           ) : null}
         </div>
         {/* end: Email */}
-
-        {/* begin: PhoneNumber */}
-        <div className="form-group fv-plugins-icon-container">
-          <input
-            placeholder="Phone Number"
-            type="text"
-            className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-              "phoneNumber"
-            )}`}
-            name="phoneNumber"
-            {...formik.getFieldProps("phoneNumber")}
-          />
-          {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-            <div className="fv-plugins-message-container">
-              <div className="fv-help-block">{formik.errors.phoneNumber}</div>
-            </div>
-          ) : null}
-        </div>
-        {/* end: PhoneNumber */}
-
-        {/*begin: Date of Birth  */}
-        <div className="form-group fv-plugins-icon-container">
-          <DatePicker
-          dateFormat="dd/MM/yyyy"
-          selected={startDate}
-          onChange={date => setStartDate(date)}
-          placeholderText="Date of birth"
-          disabledKeyboardNavigation
-          className={`form-control form-control-solid h-auto py-5 px-6 ${getInputClasses(
-            "dateBirth"
-          )}`}
-          name="dateBirth"
-          {...formik.getFieldProps("dateBirth")}
-           />
-        </div>
-        {/* end: Date of Birth */}
-
-        {/* begin: Gender */}
-        <div className="form-group fv-plugins-icon-container">
-          <Select
-          value={selectedOption}
-          onChange={setSelectedOption}
-          options={options}
-          className={"form-control form-control-solid h-auto py-5 px-6"}
-          name="gender"
-        />
-        </div>
-        {/* end: Gender */}
 
         {/* begin: Password */}
         <div className="form-group fv-plugins-icon-container">
@@ -295,6 +279,7 @@ function RegistrationUser(props) {
           ) : null}
         </div>
         {/* end: Confirm Password */}
+
         <div className="form-group fv-plugins-icon-container"/* className="form-group d-flex flex-wrap flex-center" */>
           <button
             type="submit"
@@ -323,4 +308,4 @@ function RegistrationUser(props) {
   );
 }
 
-export default injectIntl(connect(null, auth.actions)(RegistrationUser));
+export default injectIntl(connect(null, auth.actions)(RegistrationProvider));

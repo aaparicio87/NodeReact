@@ -11,7 +11,8 @@ export function login(email, password) {
   return axios.post(LOGIN_URL, { email, password });
 }
 
-  export function register(title, firstName, lastName, roomName, email, password, customer) {
+  export function register_provider(title, firstName, lastName, roomName, 
+    email, password, customer, admin) {
     const user={
       title: title,
       firstName: firstName,
@@ -19,9 +20,52 @@ export function login(email, password) {
       roomName: roomName,
       email: email,
       password: password,
-      customer: customer
+      customer: customer,
+      admin: admin,
     }
-  console.log(user);
+
+    return axios.post(REGISTER_URL, user)
+          .then(res => {
+            console.log('response', res.data);
+          })
+          .catch(err=>{
+            console.log('error', err);
+          });
+}
+
+  export function register_customer(firstName, lastName, email, password,
+     phoneNumber, dateBirth, gender, customer, admin) {
+    const user={
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+      customer: customer,
+      admin: admin,
+      phoneNumber: phoneNumber,
+      dateBirth: dateBirth,
+      gender: gender
+  }
+  
+    return axios.post(REGISTER_URL, user)
+        .then(res => {
+          console.log('response', res.data);
+        })
+        .catch(err=>{
+          console.log('error', err);
+        });
+  }
+
+export function register_admin(firstName, lastName, email, password, customer, admin) {
+  const user={
+    firstName: firstName,
+    lastName: lastName,
+    email: email,
+    password: password,
+    admin: admin,
+    customer: customer,
+}
+
   return axios.post(REGISTER_URL, user)
           .then(res => {
             console.log('response', res.data);
@@ -31,8 +75,8 @@ export function login(email, password) {
           });
 }
 
-  export function requestPassword(email) {
-  return axios.post(REQUEST_PASSWORD_URL, { email });
+export function requestPassword(email) {
+return axios.post(REQUEST_PASSWORD_URL, { email });
 }
 
 export function getUserByToken() {
