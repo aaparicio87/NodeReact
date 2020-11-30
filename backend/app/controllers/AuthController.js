@@ -30,7 +30,7 @@ module.exports = {
 
                     res.json({
                         user: user,
-                        token: token
+                        accessToken: token
                     })
 
                 } else {
