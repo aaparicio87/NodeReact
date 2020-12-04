@@ -82,6 +82,21 @@ module.exports = {
             res.status(500).json(err);
         });
 
+    },
+
+    userFindByPk(id) {
+        Users.findOne({
+                where: {
+                    id: id
+                }
+            })
+            .then(user => {
+                return user;
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
     }
 
 }
