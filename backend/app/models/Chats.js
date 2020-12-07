@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Messages extends Model {
+  class Chats extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,14 +13,15 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  Messages.init({
-    message_content:{
+  Chats.init({
+    message:{
       type: DataTypes.STRING,
       allowNull: false
     },
+    type: DataTypes.ENUM('Text', 'File', 'Image', 'Video'),
   }, {
     sequelize,
-    modelName: 'Messages',
+    modelName: 'Chats',
   });
-  return Messages;
+  return Chats;
 };

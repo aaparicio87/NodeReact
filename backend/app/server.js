@@ -16,15 +16,15 @@ app.use(cors());
 app.use(require('./routes'));
 
 
-const server = app.listen(app.get('port'),()=>{
-  console.log("Start server on port "+app.get('port'))
-  sequelize.sync({force: false})
-  .then(() => {
-      console.log('We are conected');
-  })
-  .catch(() =>{
-    console.log('There is problem with the database conection');
-  })
+const server = app.listen(app.get('port'), () => {
+    console.log("Start server on port " + app.get('port'))
+    sequelize.sync({ force: false })
+        .then(() => {
+            console.log('We are conected');
+        })
+        .catch(() => {
+            console.log('There is problem with the database conection');
+        })
 })
 
 chatServer(server);
